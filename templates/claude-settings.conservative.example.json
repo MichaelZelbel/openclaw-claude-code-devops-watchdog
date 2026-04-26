@@ -1,0 +1,43 @@
+{
+  "$comment": "Example Claude Code permissions for a conservative OpenClaw DevOps watchdog. Review against current Claude Code docs before installing.",
+  "permissions": {
+    "allow": [
+      "Bash(openclaw status)",
+      "Bash(openclaw gateway status)",
+      "Bash(openclaw gateway probe)",
+      "Bash(openclaw update status)",
+      "Bash(openclaw security audit)",
+      "Bash(systemctl --user is-active openclaw-gateway.service)",
+      "Bash(systemctl --user status openclaw-gateway.service )",
+      "Bash(journalctl --user -u openclaw-gateway.service )",
+      "Bash(journalctl --disk-usage)",
+      "Bash(df -h)",
+      "Bash(df -i)",
+      "Bash(free -h)",
+      "Bash(uptime)",
+      "Bash(curl -sS --max-time 8 http://<REMOTE_CDP_HOST>:9223/json/version)",
+      "Bash(curl -sS --max-time 8 http://<REMOTE_CDP_HOST>:9223/json/list)",
+      "Read()"
+    ],
+    "ask": [
+      "Bash(systemctl --user restart openclaw-gateway.service)",
+      "Bash(journalctl --vacuum-time=)",
+      "Bash(journalctl --vacuum-size=)",
+      "Bash(openclaw update )"
+    ],
+    "deny": [
+      "Read(<OPENCLAW_STATE_DIR>/openclaw.json)",
+      "Read(<OPENCLAW_STATE_DIR>/**/auth*)",
+      "Read(<OPENCLAW_STATE_DIR>/**/token*)",
+      "Read(<OPENCLAW_STATE_DIR>/**/secret*)",
+      "Bash(rm )",
+      "Bash(rm -rf )",
+      "Bash(trash )",
+      "Bash(systemctl restart ssh)",
+      "Bash(systemctl restart sshd)",
+      "Bash(ufw )",
+      "Bash(iptables )",
+      "Bash(nft )"
+    ]
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "$comment": "Example Claude Code permissions for the operator-approved autonomous OpenClaw DevOps. Review carefully before installing. This grants Gateway restart and limited log cleanup.",
+  "permissions": {
+    "allow": [
+      "Bash(openclaw status)",
+      "Bash(openclaw gateway status)",
+      "Bash(openclaw gateway probe)",
+      "Bash(openclaw update status)",
+      "Bash(openclaw security audit)",
+      "Bash(systemctl --user is-active openclaw-gateway.service)",
+      "Bash(systemctl --user status openclaw-gateway.service )",
+      "Bash(systemctl --user restart openclaw-gateway.service)",
+      "Bash(journalctl --user -u openclaw-gateway.service )",
+      "Bash(journalctl --disk-usage)",
+      "Bash(journalctl --vacuum-time=14d)",
+      "Bash(journalctl --vacuum-size=1G)",
+      "Bash(df -h)",
+      "Bash(df -i)",
+      "Bash(free -h)",
+      "Bash(uptime)",
+      "Bash(ps aux --sort=-%mem )",
+      "Bash(ps aux --sort=-%cpu )",
+      "Bash(curl -sS --max-time 8 http://<REMOTE_CDP_HOST>:9223/json/version)",
+      "Bash(curl -sS --max-time 8 http://<REMOTE_CDP_HOST>:9223/json/list)",
+      "Bash(node --input-type=module )",
+      "Read()"
+    ],
+    "ask": [
+      "Bash(openclaw update )",
+      "Bash(npm )",
+      "Bash(pnpm )",
+      "Bash(apt )",
+      "Bash(apt-get )",
+      "Bash(systemctl --user enable )",
+      "Bash(systemctl --user disable )",
+      "Bash(systemctl enable )",
+      "Bash(systemctl disable )",
+      "Bash(loginctl )"
+    ],
+    "deny": [
+      "Read(<OPENCLAW_STATE_DIR>/openclaw.json)",
+      "Read(<OPENCLAW_STATE_DIR>/**/auth*)",
+      "Read(<OPENCLAW_STATE_DIR>/**/token*)",
+      "Read(<OPENCLAW_STATE_DIR>/**/secret*)",
+      "Bash(rm )",
+      "Bash(rm -rf )",
+      "Bash(shred )",
+      "Bash(systemctl restart ssh)",
+      "Bash(systemctl restart sshd)",
+      "Bash(ufw )",
+      "Bash(iptables )",
+      "Bash(nft )",
+      "Bash(reboot)",
+      "Bash(shutdown )"
+    ]
+  }
+}
