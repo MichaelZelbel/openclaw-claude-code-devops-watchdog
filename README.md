@@ -4,6 +4,61 @@ This folder contains a proposed Claude Code DevOps workflow for keeping an OpenC
 
 Goal: Claude Code runs independently from OpenClaw, checks the OpenClaw VPS/Gateway, performs safe repairs, and escalates anything risky to the operator.
 
+## Quick start
+
+1. Clone or copy this repository onto the machine where Claude Code will run.
+2. Make sure Claude Code can reach the OpenClaw VPS, either by running directly on the VPS or by SSHing into it.
+3. Open this repository in Claude Code.
+4. Start with a manual dry run before scheduling anything.
+
+Suggested first prompt for Claude Code:
+
+```text
+You are setting up this repository as an OpenClaw DevOps watchdog.
+
+Read README.md, CLAUDE.md, and openclaw-devops-runbook.md first.
+
+Then do a manual safe dry run of the hourly quick repair workflow from prompts/hourly-quick-repair.md.
+
+Important boundaries:
+- Do not change firewall, SSH, Tailscale, secrets, auth, config, packages, or OS settings.
+- Do not delete data.
+- Do not update OpenClaw yet.
+- Only run read-only checks unless the OpenClaw Gateway is clearly down.
+- If the Gateway is down, you may restart only the user service openclaw-gateway.service once, then verify and report.
+
+After the dry run, report:
+1. whether the Gateway is healthy,
+2. which commands worked,
+3. any warnings that should be documented,
+4. whether this machine is suitable for scheduled watchdog runs,
+5. the exact scheduled task prompt/frequency you recommend.
+```
+
+## Manual VPS validation
+
+Before enabling a scheduled watchdog, verify the basic commands on the VPS:
+
+```bash
+systemctl --user is-active openclaw-gateway.service
+systemctl --user status openclaw-gateway.service --no-pager
+openclaw gateway status
+openclaw status
+df -h
+df -i
+free -h
+uptime
+```
+
+Expected healthy signs:
+
+- `openclaw-gateway.service` is `active`.
+- `openclaw gateway status` reports the Gateway runtime as running and the connectivity probe as ok.
+- Disk usage is comfortably below warning levels, ideally below 80%.
+- Memory and load are not under sustained pressure.
+
+If `openclaw status` reports warnings, review them before giving Claude Code more autonomous permissions. Warnings are not always incidents, but they are useful setup notes.
+
 ## Recommended scheduling model
 
 Use Claude Code Scheduled Tasks / Routines, not OpenClaw cron, for this watchdog. The point is that Claude Code should still be able to diagnose and repair OpenClaw if the OpenClaw Gateway is down.
