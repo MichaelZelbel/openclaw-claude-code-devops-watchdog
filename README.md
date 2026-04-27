@@ -11,10 +11,7 @@ Goal: Claude Code runs independently from OpenClaw, checks the OpenClaw VPS/Gate
 3. Open Claude Code and use this prompt:
 
 ```text
-Configure yourself as the OpenClaw watchdog for this server.
-
-Start here:
-https://raw.githubusercontent.com/MichaelZelbel/openclaw-claude-code-devops-watchdog/main/AGENT_START.md
+Configure yourself as the OpenClaw watchdog for this server. Start here: https://raw.githubusercontent.com/MichaelZelbel/openclaw-claude-code-devops-watchdog/main/AGENT_START.md
 ```
 
 That starter file contains the safety boundaries, dry-run checks, and scheduling recommendations.
