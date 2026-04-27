@@ -4,6 +4,21 @@ This folder contains a proposed Claude Code DevOps workflow for keeping an OpenC
 
 Goal: Claude Code runs independently from OpenClaw, checks the OpenClaw VPS/Gateway, performs safe repairs, and escalates anything risky to the operator.
 
+## TL;DR
+
+1. Install OpenClaw on your VPS.
+2. Install Claude Code on the same VPS, or on a trusted machine that can SSH into the VPS.
+3. Open Claude Code and use this prompt:
+
+```text
+Configure yourself as the OpenClaw watchdog for this server.
+
+Start here:
+https://raw.githubusercontent.com/MichaelZelbel/openclaw-claude-code-devops-watchdog/main/AGENT_START.md
+```
+
+That starter file contains the safety boundaries, dry-run checks, and scheduling recommendations.
+
 ## Quick start
 
 1. Clone or copy this repository onto the machine where Claude Code will run.
