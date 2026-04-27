@@ -2,7 +2,7 @@
 
 This folder contains a proposed Claude Code DevOps workflow for keeping an OpenClaw Gateway healthy.
 
-Goal: Claude Code runs independently from OpenClaw, checks the OpenClaw VPS/Gateway, performs safe repairs, and escalates anything risky to the operator.
+Goal: set up a VPS-local watchdog that checks the OpenClaw Gateway, performs safe repairs, and escalates anything risky to the operator.
 
 ## TL;DR
 
@@ -14,7 +14,19 @@ Goal: Claude Code runs independently from OpenClaw, checks the OpenClaw VPS/Gate
 Configure yourself as the OpenClaw watchdog for this server. Start here: https://raw.githubusercontent.com/MichaelZelbel/openclaw-claude-code-devops-watchdog/main/AGENT_START.md
 ```
 
-That starter file contains the safety boundaries, dry-run checks, and scheduling recommendations.
+That starter file contains the safety boundaries, dry-run checks, and local cron recommendations.
+
+## Architecture note
+
+The production watchdog should run **locally on the VPS** via cron or a systemd timer. Claude Code can help generate and test the scripts, but Claude Code `/schedule` and Claude Cloud Routines are remote cloud agents by default; they cannot access local VPS files, local services, or `systemctl --user` unless you explicitly add SSH/MCP/connectors.
+
+Recommended default:
+
+```text
+VPS-local cron/systemd timer -> local check/repair scripts -> Telegram alert only when needed
+```
+
+See `docs/local-cron-telegram.md` for the recommended setup.
 
 ## Quick start
 
@@ -73,34 +85,42 @@ If `openclaw status` reports warnings, review them before giving Claude Code mor
 
 ## Recommended scheduling model
 
-Use Claude Code Scheduled Tasks / Routines, not OpenClaw cron, for this watchdog. The point is that Claude Code should still be able to diagnose and repair OpenClaw if the OpenClaw Gateway is down.
+Use local cron or a systemd timer on the VPS as the default watchdog runner.
 
-Recommended tasks:
+Recommended local jobs:
 
-1. `openclaw-hourly-quick-repair`
-   - Frequency: hourly
-   - Prompt: `prompts/hourly-quick-repair.md`
-   - Purpose: fast health check, safe repair, incident report only when needed.
+1. `quick-check.sh`
+   - Frequency: every 5 minutes, or hourly if you prefer less noise.
+   - Source prompt/policy: `prompts/hourly-quick-repair.md`.
+   - Purpose: fast health check, safe repair, Telegram incident report only when needed.
 
-2. `openclaw-six-hour-deep-check`
-   - Frequency: every 6 hours
-   - Prompt: `prompts/six-hour-deep-check.md`
+2. `deep-check.sh`
+   - Frequency: every 6 hours.
+   - Source prompt/policy: `prompts/six-hour-deep-check.md`.
    - Purpose: deeper Gateway, host, browser/CDP, update-readiness, disk/RAM/log health.
 
-3. Optional `openclaw-update-maintenance`
-   - Frequency: weekly or manual
-   - Prompt: `prompts/update-maintenance.md`
+3. Optional `update-maintenance` run
+   - Frequency: weekly or manual.
+   - Source prompt/policy: `prompts/update-maintenance.md`.
    - Purpose: safe OpenClaw update flow with pre/post smoke tests and explicit rollback boundaries.
+   - Do not auto-update unless the operator explicitly approves that policy.
 
-## Which Claude Code scheduling option?
+## What about Claude Code `/schedule`?
 
-- Claude Code Desktop Scheduled Tasks: best if Claude Code runs on a machine with direct SSH/local access to the VPS and configurable task permissions. Minimum interval is documented as 1 minute.
-- Claude Code Cloud Routines: good if the routine has a secure connector/environment that can reach the VPS. Minimum interval is documented as 1 hour. Do not use cloud routines for repair unless secure VPS access is deliberately configured.
-- `/loop`: useful for temporary incident work, not recommended as the long-term watchdog.
+Do not assume Claude Code scheduled tasks run on the VPS. Claude Code `/schedule` and Cloud Routines are remote agents unless you deliberately provide secure access to the VPS.
+
+Use remote scheduled agents only for advanced setups such as:
+
+- SSH from the remote agent into a restricted watchdog user,
+- MCP/connectors that can safely run the local checks,
+- a strongly authenticated HTTPS status endpoint.
+
+For most users, local cron + Telegram is simpler, safer, and more reliable.
 
 ## Files
 
 - `openclaw-devops-runbook.md` — operational policy and escalation rules.
+- `docs/local-cron-telegram.md` — recommended production architecture using local cron/systemd timer plus Telegram alerts.
 - `prompts/hourly-quick-repair.md` — main hourly scheduled prompt.
 - `prompts/six-hour-deep-check.md` — deep scheduled prompt.
 - `prompts/update-maintenance.md` — update prompt.
