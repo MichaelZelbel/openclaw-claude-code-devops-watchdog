@@ -121,6 +121,7 @@ For most users, local cron + Telegram is simpler, safer, and more reliable.
 
 - `openclaw-devops-runbook.md` — operational policy and escalation rules.
 - `docs/local-cron-telegram.md` — recommended production architecture using local cron/systemd timer plus Telegram alerts.
+- `docs/agent-self-config-guardrail.md` — pattern for detecting and reversing the case where the agent disables itself by setting `tools.allow` to a non-existent ID.
 - `prompts/hourly-quick-repair.md` — main hourly scheduled prompt.
 - `prompts/six-hour-deep-check.md` — deep scheduled prompt.
 - `prompts/update-maintenance.md` — update prompt.

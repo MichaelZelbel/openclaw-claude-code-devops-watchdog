@@ -49,6 +49,7 @@ These actions are allowed when evidence shows they are needed:
   - `journalctl --vacuum-time=14d`
   - or `journalctl --vacuum-size=1G`
   Only do this when disk usage is critical and report it.
+- Roll back a self-inflicted `tools.allow` allowlist that empties the agent's toolset. Detection is the literal log line `No callable tools remain after resolving explicit tool allowlist`, or drift between live `tools.allow` and a pinned known-good. Rollback restores from the pinned baseline and restarts the gateway. See `docs/agent-self-config-guardrail.md`.
 
 ## Auto-update policy
 

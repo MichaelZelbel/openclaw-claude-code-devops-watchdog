@@ -56,6 +56,25 @@ If Claude Code lost its context, restart the dry run from `AGENT_START.md` and m
 - Vacuum logs only when they are clearly the cause.
 - Never delete unknown OpenClaw state, sessions, credentials, browser profiles, or databases.
 
+## Agent stopped replying after self-modifying its config
+
+Symptom: gateway is `active`, channels (Telegram, web chat) accept messages, but the agent never produces a reply. Logs show repeated lines like:
+
+```
+[tools] No callable tools remain after resolving explicit tool allowlist
+(tools.allow: <id>); no registered tools matched.
+```
+
+Root cause: the agent set `tools.allow` in `~/.openclaw/openclaw.json` to an ID that does not match any registered tool. `tools.allow` is a restrictive whitelist, so the resolved toolset becomes empty and every run fails before it can reply.
+
+Manual recovery:
+
+1. Edit `~/.openclaw/openclaw.json` and remove the `tools.allow` array (keep `tools.profile`).
+2. Restart `openclaw-gateway.service`.
+3. Wait up to 25 s for warm-up before probing.
+
+For a permanent guardrail that detects and reverses this within minutes, see `docs/agent-self-config-guardrail.md`.
+
 ## Browser/CDP works but screenshot fails
 
 Treat this as a warning if snapshot/evaluate/navigation and direct Playwright/CDP checks work. File a bug with a minimal reproduction if needed.
