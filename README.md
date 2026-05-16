@@ -132,3 +132,20 @@ For most users, local cron + Telegram is simpler, safer, and more reliable.
 ## Safety principle
 
 Claude Code may repair OpenClaw, but it must not silently perform destructive, security-sensitive, or broad system changes. Restarting the Gateway is safe. Deleting unknown files, rotating secrets, changing firewall/SSH, and major updates are not.
+
+## Support this project
+
+This watchdog is free and MIT licensed, and it stays that way.
+
+If it saved you time and you want to support the work, you can buy me a
+coffee on Ko-fi. Supporters get my personal extended build, the OpenClaw
+DevOps Kit. It takes this watchdog and wires it into a full hands-off
+setup: it installs OpenClaw and Claude Code for you, onboards them, sets
+up Telegram alerts, and adds safe nightly upgrades with rollback, cost
+monitoring, a security baseline audit, incident-response playbooks, and a
+remote browser bridge. You end up with a DevOps assistant living on your
+server that you can just ask to do things.
+
+[Support on Ko-fi and get the OpenClaw DevOps Kit](https://ko-fi.com/s/8752f1ccc7)
+
+Either way, thanks for using the watchdog.
