@@ -4,6 +4,10 @@ This folder contains a proposed Claude Code DevOps workflow for keeping an OpenC
 
 Goal: set up a VPS-local watchdog that checks the OpenClaw Gateway, performs safe repairs, and escalates anything risky to the operator.
 
+[![I Turned Claude Code Into My DevOps For OpenClaw, a video on YouTube](https://img.youtube.com/vi/FFLUKacX0Yo/maxresdefault.jpg)](https://www.youtube.com/watch?v=FFLUKacX0Yo)
+
+The video about this project: [I Turned Claude Code Into My DevOps For OpenClaw](https://www.youtube.com/watch?v=FFLUKacX0Yo) on YouTube.
+
 ## TL;DR
 
 1. Install OpenClaw on your VPS.
