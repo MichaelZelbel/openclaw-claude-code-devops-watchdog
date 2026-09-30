@@ -4,6 +4,8 @@ This folder contains a proposed Claude Code DevOps workflow for keeping an OpenC
 
 Goal: set up a VPS-local watchdog that checks the OpenClaw Gateway, performs safe repairs, and escalates anything risky to the operator.
 
+Made by Michael Zelbel, who also builds [Godspeed Mission Control](https://godspeedmissioncontrol.com), a free personal AI you run yourself.
+
 [![I Turned Claude Code Into My DevOps For OpenClaw, a video on YouTube](https://img.youtube.com/vi/FFLUKacX0Yo/maxresdefault.jpg)](https://www.youtube.com/watch?v=FFLUKacX0Yo)
 
 The video about this project: [I Turned Claude Code Into My DevOps For OpenClaw](https://www.youtube.com/watch?v=FFLUKacX0Yo) on YouTube.
@@ -141,15 +143,27 @@ Claude Code may repair OpenClaw, but it must not silently perform destructive, s
 
 This watchdog is free and MIT licensed, and it stays that way.
 
+There is also an extended build, the OpenClaw DevOps Kit, free on Ko-fi.
+It takes this watchdog and wires it into a full hands-off setup: it
+installs OpenClaw and Claude Code for you, onboards them, sets up Telegram
+alerts, and adds safe nightly upgrades with rollback, cost monitoring, a
+security baseline audit, incident-response playbooks, and the
+[Chrome Agent Bridge](https://github.com/MichaelZelbel/chrome-agent-bridge),
+so your agent can use a real, logged-in browser on your own computer. You
+end up with a DevOps assistant living on your server that you can just ask
+to do things.
+
+[Get the OpenClaw DevOps Kit free on Ko-fi](https://ko-fi.com/s/8752f1ccc7)
+
 If it saved you time and you want to support the work, you can buy me a
-coffee on Ko-fi. Supporters get my personal extended build, the OpenClaw
-DevOps Kit. It takes this watchdog and wires it into a full hands-off
-setup: it installs OpenClaw and Claude Code for you, onboards them, sets
-up Telegram alerts, and adds safe nightly upgrades with rollback, cost
-monitoring, a security baseline audit, incident-response playbooks, and a
-remote browser bridge. You end up with a DevOps assistant living on your
-server that you can just ask to do things.
+coffee there too. Either way, thanks for using the watchdog.
 
-[Support on Ko-fi and get the OpenClaw DevOps Kit](https://ko-fi.com/s/8752f1ccc7)
+## Related projects
 
-Either way, thanks for using the watchdog.
+- The same watchdog for other agent servers:
+  [Hermes](https://github.com/MichaelZelbel/hermes-claude-code-devops-watchdog),
+  [Hermes watching itself](https://github.com/MichaelZelbel/hermes-self-devops-watchdog) and
+  [Paperclip](https://github.com/MichaelZelbel/paperclip-devops-watchdog).
+- [Godspeed Mission Control](https://godspeedmissioncontrol.com): a free
+  personal AI that lives in a folder you own and wakes you only when it
+  matters.
